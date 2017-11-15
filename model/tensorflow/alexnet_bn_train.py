@@ -24,6 +24,8 @@ def appendToLog(toLog):
 	with open("logResults.txt", "a") as logF:
     logF.write(toLog + "\n")
 
+appendToLog("dropout experiment with dropout="+str(dropout))
+
 def batch_norm_layer(x, train_phase, scope_bn):
     return batch_norm(x, decay=0.9, center=True, scale=True,
     updates_collections=None,
