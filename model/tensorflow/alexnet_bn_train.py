@@ -20,6 +20,10 @@ step_save = 10000
 path_save = 'alexnet_bn'
 start_from = ''
 
+def appendToLog(toLog):
+	with open("logResults.txt", "a") as logF:
+    logF.write(toLog + "\n")
+
 def batch_norm_layer(x, train_phase, scope_bn):
     return batch_norm(x, decay=0.9, center=True, scale=True,
     updates_collections=None,
@@ -161,18 +165,22 @@ with tf.Session() as sess:
 
             # Calculate batch loss and accuracy on training set
             l, acc1, acc5 = sess.run([loss, accuracy1, accuracy5], feed_dict={x: images_batch, y: labels_batch, keep_dropout: 1., train_phase: False}) 
-            print("-Iter " + str(step) + ", Training Loss= " + \
+            outTraining = "-Iter " + str(step) + ", Training Loss= " + \
                   "{:.6f}".format(l) + ", Accuracy Top1 = " + \
                   "{:.4f}".format(acc1) + ", Top5 = " + \
-                  "{:.4f}".format(acc5))
+                  "{:.4f}".format(acc5)
+            print(outTraining)
+            appendToLog(outTraining)
 
             # Calculate batch loss and accuracy on validation set
             images_batch_val, labels_batch_val = loader_val.next_batch(batch_size)    
             l, acc1, acc5 = sess.run([loss, accuracy1, accuracy5], feed_dict={x: images_batch_val, y: labels_batch_val, keep_dropout: 1., train_phase: False}) 
-            print("-Iter " + str(step) + ", Validation Loss= " + \
+            outValid = "-Iter " + str(step) + ", Validation Loss= " + \
                   "{:.6f}".format(l) + ", Accuracy Top1 = " + \
                   "{:.4f}".format(acc1) + ", Top5 = " + \
-                  "{:.4f}".format(acc5))
+                  "{:.4f}".format(acc5)
+            print(outValid)
+            appendToLog(outValid)
         
         # Run optimization op (backprop)
         sess.run(train_optimizer, feed_dict={x: images_batch, y: labels_batch, keep_dropout: dropout, train_phase: True})
