@@ -22,7 +22,7 @@ start_from = ''
 
 def appendToLog(toLog):
 	with open("logResults.txt", "a") as logF:
-    logF.write(toLog + "\n")
+            logF.write(toLog + "\n")
 
 appendToLog("dropout experiment with dropout="+str(dropout))
 
