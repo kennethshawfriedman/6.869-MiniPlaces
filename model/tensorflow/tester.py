@@ -184,6 +184,7 @@ with tf.Session() as sess:
             preds += str(prediction) + " "
         fName = "test/"+strLength8ForNumber(i+1) + ".jpg" + " "
         preds =  fName + preds[:-1]
+        preds += "\n" #add new line between images
         print(i+1)
         file.write(preds)
 
