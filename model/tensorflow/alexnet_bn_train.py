@@ -135,6 +135,10 @@ logits = alexnet(x, keep_dropout, train_phase)
 loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y, logits=logits))
 train_optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
 
+#L2 Regularization
+regularizer = tf.nn.l2_loss(weights)
+loss = tf.reduce_mean(loss + beta * regularizer)
+
 # Evaluate model
 accuracy1 = tf.reduce_mean(tf.cast(tf.nn.in_top_k(logits, y, 1), tf.float32))
 accuracy5 = tf.reduce_mean(tf.cast(tf.nn.in_top_k(logits, y, 5), tf.float32))
